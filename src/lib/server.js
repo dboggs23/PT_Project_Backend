@@ -5,10 +5,12 @@ const bodyParser = require('body-parser')
 require("dotenv").config();
 
 const app = express();
-const router = express.Router();
+//const router = express.Router();
+
+const routes = require("../routes/exercise");
 
 // env variables
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.Promise = Promise;
@@ -20,6 +22,10 @@ db.on("error", console.error.bind(console, "MongoDB connection error: "));
 app.use(bodyParser.json(), cors());
 
 //app.use(require("../route/login"));
+app.use("/app", routes);
+app.use("/FinishExercise", routes);
+app.use("/GetExercise", routes);
+
 
 app.all("*", (request, response) => {
   console.log("Returning a 404 from the catch-all route");
